@@ -19,7 +19,9 @@ function createGenres() {
   //Get genre list from API
   fetch(`api/genres`, (data) => {
     data.forEach((result) => {
-      let $option = $(`<option value=${data.id}>${data.genreName}</option>`);
+      let $option = $(
+        `<option value=${result.id}>${result.genreName}</option>`
+      );
       $select.append($option);
     });
   });
