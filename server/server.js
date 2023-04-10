@@ -141,6 +141,19 @@ app.put("/api/games/:id", (req, res) => {
   );
 });
 
+app.delete("/api/games/:id", (req, res) => {
+  db.query(
+    "DELETE FROM games WHERE id = $1",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      res.send("Game Deleted");
+    }
+  );
+});
+
 app.get("/api/genres", (req, res) => {
   db.query("SELECT * FROM genres", (err, result) => {
     if (err) {

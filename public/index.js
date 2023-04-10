@@ -84,10 +84,14 @@ async function createTable() {
   let $game = $(`<th>Game Name</th>`);
   let $genre = $(`<th>Genre</th>`);
   let $console = $(`<th>Console</th>`);
+  let $button = $(`<th>Delete</th>`);
+
+  $table.empty();
 
   $thead.append($game);
   $thead.append($genre);
   $thead.append($console);
+  $thead.append($button);
   $table.append($thead);
 
   let results = await fetch("api/games");
@@ -96,13 +100,24 @@ async function createTable() {
   console.log(gamelist);
 
   for (let x = 0; x < gamelist.length; x++) {
-    let $tr = $(`<tr><tr>`);
+    let $tr = $(`<tr></tr>`);
     let $gamename = $(`<td>${gamelist[x].gamename}</td>`);
     let $genrename = $(`<td>${gamelist[x].genrename}</td>`);
     let $consolename = $(`<td>${gamelist[x].consolename}</td>`);
+    let $delete = $(`<button class="delete">Delete</td>`);
+    $delete.on("click", () => {
+      //Run delete on gameid
+      fetch(`/api/games/${gamelist[x].id}`, {
+        method: "DELETE",
+      }).then(() => console.log("Deleted"));
+
+      //console.log(gamelist[x].id);
+      createTable();
+    });
     $tr.append($gamename);
     $tr.append($genrename);
     $tr.append($consolename);
+    $tr.append($delete);
     console.log(x);
     $table.append($tr);
   }
