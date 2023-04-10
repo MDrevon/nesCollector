@@ -1,0 +1,52 @@
+INSERT INTO genres (genreName) VALUES ('Action');
+INSERT INTO genres (genreName) VALUES ('Adventure');
+INSERT INTO genres (genreName) VALUES ('Fighting');
+INSERT INTO genres (genreName) VALUES ('Platform');
+INSERT INTO genres (genreName) VALUES ('Puzzle');
+INSERT INTO genres (genreName) VALUES ('Racing');
+INSERT INTO genres (genreName) VALUES ('RPG');
+INSERT INTO genres (genreName) VALUES ('Shooter');
+INSERT INTO genres (genreName) VALUES ('Simulation');
+INSERT INTO genres (genreName) VALUES ('Sports');
+INSERT INTO genres (genreName) VALUES ('Strategy');
+INSERT INTO genres (genreName) VALUES ('Other');
+
+INSERT INTO consoles (consoleName) VALUES ('3DO');
+INSERT INTO consoles (consoleName) VALUES ('Atari 2600');
+INSERT INTO consoles (consoleName) VALUES ('Nintendo Entertainment System');
+INSERT INTO consoles (consoleName) VALUES ('Super Nintendo Entertainment System');
+INSERT INTO consoles (consoleName) VALUES ('Nintendo 64');
+INSERT INTO consoles (consoleName) VALUES ('GameCube');
+INSERT INTO consoles (consoleName) VALUES ('Wii');
+INSERT INTO consoles (consoleName) VALUES ('Wii U');
+INSERT INTO consoles (consoleName) VALUES ('Nintendo Switch');
+INSERT INTO consoles (consoleName) VALUES ('PlayStation');
+INSERT INTO consoles (consoleName) VALUES ('PlayStation 2');
+INSERT INTO consoles (consoleName) VALUES ('PlayStation 3');
+INSERT INTO consoles (consoleName) VALUES ('PlayStation 4');
+INSERT INTO consoles (consoleName) VALUES ('PlayStation 5');
+INSERT INTO consoles (consoleName) VALUES ('Xbox');
+INSERT INTO consoles (consoleName) VALUES ('Xbox 360');
+INSERT INTO consoles (consoleName) VALUES ('Xbox One');
+INSERT INTO consoles (consoleName) VALUES ('Xbox Series X');
+INSERT INTO consoles (consoleName) VALUES ('PC');
+INSERT INTO consoles (consoleName) VALUES ('Nintendo DS');
+INSERT INTO consoles (consoleName) VALUES ('Nintendo 3DS');
+INSERT INTO consoles (consoleName) VALUES ('PlayStation Portable');
+INSERT INTO consoles (consoleName) VALUES ('PlayStation Vita');
+INSERT INTO consoles (consoleName) VALUES ('Sega Genesis');
+INSERT INTO consoles (consoleName) VALUES ('Sega CD');
+INSERT INTO consoles (consoleName) VALUES ('Sega Saturn');
+INSERT INTO consoles (consoleName) VALUES ('Sega Dreamcast');
+INSERT INTO consoles (consoleName) VALUES ('Sega Game Gear');
+INSERT INTO consoles (consoleName) VALUES ('Sega Master System');
+INSERT INTO consoles (consoleName) VALUES ('Sega 32X');
+INSERT INTO consoles (consoleName) VALUES ('Neo Geo AES');
+INSERT INTO consoles (consoleName) VALUES ('Neo Geo Pocket Color');
+INSERT INTO consoles (consoleName) VALUES ('Gameboy');
+INSERT INTO consoles (consoleName) VALUES ('Gameboy Color');
+INSERT INTO consoles (consoleName) VALUES ('Gameboy Advance');
+INSERT INTO consoles (consoleName) VALUES ('TurboGrafx-16');
+
+
+

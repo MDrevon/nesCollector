@@ -1,0 +1,8 @@
+### Test
+GET http://localhost:3000/
+
+### Get All Records
+GET http://localhost:3000/api/consoles
+
+### GET All Genres
+GET http://localhost:3000/api/genres
