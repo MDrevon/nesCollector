@@ -9,6 +9,14 @@ const db = new Client({ connectionString: process.env.DATABASE });
 
 db.connect();
 
+//Middleware
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(express.static("static"));
+
+app.set("view engine", "html");
+app.engine("html", require("ejs").renderFile);
+
 app.get("/", (req, res) => {
   res.send("Test");
 });
