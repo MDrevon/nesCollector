@@ -12,7 +12,7 @@ db.connect();
 //Middleware
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(express.static("static"));
+app.use(express.static("public"));
 
 app.set("view engine", "html");
 app.engine("html", require("ejs").renderFile);
@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/consoles", (req, res) => {
-  db.query("SELECT * FROM consoles", (err, result) => {
+  db.query("SELECT * FROM consoles ORDER BY consoleName ASC", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -41,12 +41,15 @@ app.get("/api/consoles/:id", (req, res) => {
 });
 
 app.get("/api/games", (req, res) => {
-  db.query("SELECT * FROM games", (err, result) => {
-    if (err) {
-      console.log(err);
+  db.query(
+    "SELECT games.id, games.gamename, genres.genrename, consoles.consolename FROM games JOIN genres ON genres.id = games.genreid JOIN consoles ON consoles.id = games.consoleid ORDER BY gamename ASC",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      res.send(result.rows);
     }
-    res.send(result.rows);
-  });
+  );
 });
 
 app.get("/api/games/:consoleId", (req, res) => {
@@ -102,20 +105,23 @@ app.get("/api/games/:name", (req, res) => {
 });
 
 app.post("/api/games", (req, res) => {
-  const name = req.body.name;
-  const genre = req.body.genre;
-  const console = req.body.console;
+  const name = req.body.gameName;
+  const genre = req.body.genreId;
+  const console = req.body.consoleId;
 
   db.query(
-    "INSERT INTO games (name, genre, console) VALUES ($1, $2, $3)",
-    [name, genre, console],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      }
-      res.send("Game added");
-    }
-  );
+    "INSERT INTO games (gamename, genreid, consoleid) VALUES ($1, $2, $3)",
+    [name, genre, console]
+  ).then((result) => {
+    res.send(result);
+  });
+  // ,
+  // (err, result) => {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+  //   res.send("Game added");
+  // }
 });
 
 app.put("/api/games/:id", (req, res) => {

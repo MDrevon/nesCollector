@@ -6,3 +6,16 @@ GET http://localhost:3000/api/consoles
 
 ### GET All Genres
 GET http://localhost:3000/api/genres
+
+### POST a Game
+POST http://localhost:3000/api/games
+Content-Type: application/json
+
+{
+    "gameName": "Persona 4",
+    "genreId": 7,
+    "consoleId": 11
+}
+
+### GET All Games
+GET http://localhost:3000/api/games
