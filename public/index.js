@@ -12,9 +12,13 @@ var consoleId = 0;
 
 $(document).ready(function () {
   //Search Bar goes here
-  createMenu();
-  createInput();
+  createPage();
 });
+
+async function createPage() {
+  await createMenu();
+  await createInput();
+}
 
 async function createInput() {
   //let $columns = $(`.columns`);
@@ -40,7 +44,7 @@ async function createInput() {
   $div.append($form);
   $columns.append($div);
 
-  createTable(consoleId);
+  await createTable(consoleId);
 
   // $div.append($gamename);
   // $div.append($genre);
