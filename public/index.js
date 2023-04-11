@@ -70,6 +70,7 @@ $submit.on("click", function () {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify(gameJson),
   })
@@ -84,7 +85,11 @@ async function createGenres() {
   let $select = $(`<select class="select" id="genres"></select>`);
 
   //Get genre list from API
-  let results = await fetch(`/api/genres`);
+  let results = await fetch(`/api/genres`, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
   let genres = await results.json();
   //console.log(genres);
 
@@ -102,7 +107,11 @@ async function createGenres() {
 async function createConsoles() {
   let $select = $(`<select class="select" id="consoles"></select>`);
 
-  let results = await fetch(`/api/consoles`);
+  let results = await fetch(`/api/consoles`, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
   let consoles = await results.json();
   //console.log(genres);
 
@@ -134,9 +143,17 @@ async function createTable(id) {
   $table.append($thead);
 
   if (consoleId === 0) {
-    results = await fetch("api/games");
+    results = await fetch("api/games", {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   } else {
-    results = await fetch(`api/games/console/${consoleId}`);
+    results = await fetch(`api/games/console/${consoleId}`, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   }
 
   let gamelist = await results.json();
@@ -153,6 +170,9 @@ async function createTable(id) {
       //Run delete on gameid
       fetch(`/api/games/${gamelist[x].id}`, {
         method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
       }).then(() => console.log("Deleted"));
 
       //console.log(gamelist[x].id);
@@ -175,7 +195,11 @@ async function createMenu() {
   let $menu = $(`<div class="column"><p class="menu-label">Consoles</p></div>`);
   let $ul = $(`<ul class="menu-list"></ul>`);
 
-  let results = await fetch(`/api/consoles`);
+  let results = await fetch(`/api/consoles`, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
   let consoles = await results.json();
   //console.log(genres);
 
@@ -213,9 +237,17 @@ async function redrawTable(id) {
   $table.append($thead);
 
   if (consoleId === 0) {
-    results = await fetch("api/games");
+    results = await fetch("api/games", {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   } else {
-    results = await fetch(`api/games/console/${consoleId}`);
+    results = await fetch(`api/games/console/${consoleId}`, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   }
 
   let gamelist = await results.json();
@@ -232,6 +264,9 @@ async function redrawTable(id) {
       //Run delete on gameid
       fetch(`/api/games/${gamelist[x].id}`, {
         method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
       }).then(() => console.log("Deleted"));
 
       //console.log(gamelist[x].id);
