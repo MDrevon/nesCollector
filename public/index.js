@@ -2,26 +2,51 @@
 
 const $body = $(`body`);
 const $container = $(`.container`);
-let $aside = $(`<aside class="menu is-small"></aside>`);
-let $submit = $(`<button id="submit" class="button">Submit</button>`);
+
+let $main = $(`<div class="columns"></div>`);
+$container.append($main);
+const $columns = $(`.columns`);
+
+let $submit = $(`<br/><button id="submit" class="button">Submit</button>`);
 var consoleId = 0;
 
 $(document).ready(function () {
+  //Search Bar goes here
   createMenu();
   createInput();
-  createTable(consoleId);
 });
 
 async function createInput() {
-  //let $div = $(`<div class="navbar-end"></div>`);
-  let $gamename = $(`<input class="input" id="gamename"></input>`);
+  //let $columns = $(`.columns`);
+  //let $column = $(`<div class="column"></div>`);
+  let $div = $(`<div id="form" class="column"></div>`);
+  let $form = $(`<div class="field"></div>`);
+  let $gamelabel = $(`<label class="label">Game Name</label>`);
+  let $gamename = $(
+    `<div class="control"><input class="input" id="gamename"></input></div>`
+  );
+  let $genrelabel = $(`<label class="label">Genre</label>`);
   let $genre = await createGenres();
+  let $consolelabel = $(`<label class="label">Console</label>`);
   let $console = await createConsoles();
 
-  $container.append($gamename);
-  $container.append($genre);
-  $container.append($console);
-  $container.append($submit);
+  $form.append($gamelabel);
+  $form.append($gamename);
+  $form.append($genrelabel);
+  $form.append($genre);
+  $form.append($consolelabel);
+  $form.append($console);
+  $form.append($submit);
+  $div.append($form);
+  $columns.append($div);
+
+  createTable(consoleId);
+
+  // $div.append($gamename);
+  // $div.append($genre);
+  // $div.append($console);
+
+  //$container.append($div);
   //$aside.append($div);
 }
 
@@ -31,6 +56,8 @@ $submit.on("click", function () {
   let consoleid = $(`#consoles`).val();
 
   let gameJson = { gameName: gamename, genreId: genreid, consoleId: consoleid };
+
+  $(`#gamename`).val("");
 
   //console.log(gameJson);
   //console.log(gamename, genreid, consoleid);
@@ -44,6 +71,8 @@ $submit.on("click", function () {
   })
     .then((response) => response.json())
     .then((data) => console.log(data));
+
+  redrawTable(consoleId);
 });
 
 //Create Genre Select
@@ -85,7 +114,85 @@ async function createConsoles() {
 
 //Create Game Table
 async function createTable(id) {
-  let $table = $(`.table`);
+  let $form = $(`#form`);
+  let $table = $(`<table id="table" class="table is-striped"></table>`);
+  let $thead = $(`<thead></thead>`);
+  let $game = $(`<th>Game Name</th>`);
+  let $genre = $(`<th>Genre</th>`);
+  let $console = $(`<th>Console</th>`);
+  let $button = $(`<th>Delete</th>`);
+  let results;
+
+  $thead.append($game);
+  $thead.append($genre);
+  $thead.append($console);
+  $thead.append($button);
+  $table.append($thead);
+
+  if (consoleId === 0) {
+    results = await fetch("api/games");
+  } else {
+    results = await fetch(`api/games/console/${consoleId}`);
+  }
+
+  let gamelist = await results.json();
+  //console.log("results:" + results);
+  console.log(gamelist);
+
+  for (let x = 0; x < gamelist.length; x++) {
+    let $tr = $(`<tr></tr>`);
+    let $gamename = $(`<td>${gamelist[x].gamename}</td>`);
+    let $genrename = $(`<td>${gamelist[x].genrename}</td>`);
+    let $consolename = $(`<td>${gamelist[x].consolename}</td>`);
+    let $delete = $(`<button class="delete">Delete</td>`);
+    $delete.on("click", () => {
+      //Run delete on gameid
+      fetch(`/api/games/${gamelist[x].id}`, {
+        method: "DELETE",
+      }).then(() => console.log("Deleted"));
+
+      //console.log(gamelist[x].id);
+      redrawTable(id);
+    });
+    $tr.append($gamename);
+    $tr.append($genrename);
+    $tr.append($consolename);
+    $tr.append($delete);
+    console.log(x);
+    $table.append($tr);
+  }
+  $form.append($table);
+  //console.log($table);
+}
+
+async function createMenu() {
+  //let $columns = $(`.columns`);
+  let $aside = $(`<div class="column is-3 menu is-small"></div>`);
+  let $menu = $(`<div class="column"><p class="menu-label">Consoles</p></div>`);
+  let $ul = $(`<ul class="menu-list"></ul>`);
+
+  let results = await fetch(`/api/consoles`);
+  let consoles = await results.json();
+  //console.log(genres);
+
+  for (let x = 0; x < consoles.length; x++) {
+    let $li = $(`<li><a>${consoles[x].consolename}</a></li>`);
+    $li.on("click", () => {
+      consoleId = consoles[x].id;
+      redrawTable(consoleId);
+      console.log(`Clicked ${consoles[x].consolename} `);
+    });
+    $ul.append($li);
+  }
+  $menu.append($ul);
+  $aside.append($menu);
+  //$aside.insertBefore(".container");
+  $columns.append($aside);
+}
+
+async function redrawTable(id) {
+  let $form = $(`#form`);
+  let $table = $(`#table`);
   let $thead = $(`<thead></thead>`);
   let $game = $(`<th>Game Name</th>`);
   let $genre = $(`<th>Genre</th>`);
@@ -124,7 +231,7 @@ async function createTable(id) {
       }).then(() => console.log("Deleted"));
 
       //console.log(gamelist[x].id);
-      createTable();
+      redrawTable(id);
     });
     $tr.append($gamename);
     $tr.append($genrename);
@@ -133,28 +240,5 @@ async function createTable(id) {
     console.log(x);
     $table.append($tr);
   }
-  //console.log($table);
-}
-
-async function createMenu() {
-  let $menu = $(`<p class="menu-label">Consoles</p>`);
-  let $ul = $(`<ul class="menu-list"></ul>`);
-
-  let results = await fetch(`/api/consoles`);
-  let consoles = await results.json();
-  //console.log(genres);
-
-  for (let x = 0; x < consoles.length; x++) {
-    let $li = $(`<li><a>${consoles[x].consolename}</a></li>`);
-    $li.on("click", () => {
-      consoleId = consoles[x].id;
-      createTable(consoleId);
-      console.log(`Clicked ${consoles[x].consolename} `);
-    });
-    $ul.append($li);
-  }
-  $menu.append($ul);
-  $aside.append($menu);
-  $aside.insertBefore(".container");
-  //$body.append($aside);
+  $form.append($table);
 }
