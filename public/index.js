@@ -195,11 +195,7 @@ async function createMenu() {
   let $menu = $(`<div class="column"><p class="menu-label">Consoles</p></div>`);
   let $ul = $(`<ul class="menu-list"></ul>`);
 
-  let results = await fetch(`/api/consoles`, {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
-  });
+  let results = await fetch(`/api/consoles`);
   let consoles = await results.json();
   //console.log(genres);
 
