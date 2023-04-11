@@ -5,6 +5,7 @@ const $container = $(`.container`);
 let $submit = $(`<button id="submit" class="button">Submit</button>`);
 
 $(document).ready(function () {
+  createMenu();
   createInput();
   createTable();
 });
@@ -122,4 +123,25 @@ async function createTable() {
     $table.append($tr);
   }
   //console.log($table);
+}
+
+async function createMenu() {
+  let $aside = $(`<aside class="menu"></aside>`);
+  let $menu = $(`<p class="menu-label">Consoles</p>`);
+  let $ul = $(`<ul class="menu-list"></ul>`);
+
+  let results = await fetch(`/api/consoles`);
+  let consoles = await results.json();
+  //console.log(genres);
+
+  for (let x = 0; x < consoles.length; x++) {
+    let $li = $(`<li><a>${consoles[x].consolename}</a></li>`);
+    $li.on("click", () => {
+      console.log(`Clicked ${consoles[x].consolename} `);
+    });
+    $ul.append($li);
+  }
+  $menu.append($ul);
+  $aside.append($menu);
+  $body.append($aside);
 }
