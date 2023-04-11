@@ -2,15 +2,18 @@
 
 const $body = $(`body`);
 const $container = $(`.container`);
+let $aside = $(`<aside class="menu is-small"></aside>`);
 let $submit = $(`<button id="submit" class="button">Submit</button>`);
+var consoleId = 0;
 
 $(document).ready(function () {
   createMenu();
   createInput();
-  createTable();
+  createTable(consoleId);
 });
 
 async function createInput() {
+  //let $div = $(`<div class="navbar-end"></div>`);
   let $gamename = $(`<input class="input" id="gamename"></input>`);
   let $genre = await createGenres();
   let $console = await createConsoles();
@@ -19,6 +22,7 @@ async function createInput() {
   $container.append($genre);
   $container.append($console);
   $container.append($submit);
+  //$aside.append($div);
 }
 
 $submit.on("click", function () {
@@ -27,6 +31,7 @@ $submit.on("click", function () {
   let consoleid = $(`#consoles`).val();
 
   let gameJson = { gameName: gamename, genreId: genreid, consoleId: consoleid };
+
   //console.log(gameJson);
   //console.log(gamename, genreid, consoleid);
 
@@ -79,13 +84,14 @@ async function createConsoles() {
 }
 
 //Create Game Table
-async function createTable() {
+async function createTable(id) {
   let $table = $(`.table`);
   let $thead = $(`<thead></thead>`);
   let $game = $(`<th>Game Name</th>`);
   let $genre = $(`<th>Genre</th>`);
   let $console = $(`<th>Console</th>`);
   let $button = $(`<th>Delete</th>`);
+  let results;
 
   $table.empty();
 
@@ -95,7 +101,12 @@ async function createTable() {
   $thead.append($button);
   $table.append($thead);
 
-  let results = await fetch("api/games");
+  if (consoleId === 0) {
+    results = await fetch("api/games");
+  } else {
+    results = await fetch(`api/games/console/${consoleId}`);
+  }
+
   let gamelist = await results.json();
   //console.log("results:" + results);
   console.log(gamelist);
@@ -126,7 +137,6 @@ async function createTable() {
 }
 
 async function createMenu() {
-  let $aside = $(`<aside class="menu"></aside>`);
   let $menu = $(`<p class="menu-label">Consoles</p>`);
   let $ul = $(`<ul class="menu-list"></ul>`);
 
@@ -137,11 +147,14 @@ async function createMenu() {
   for (let x = 0; x < consoles.length; x++) {
     let $li = $(`<li><a>${consoles[x].consolename}</a></li>`);
     $li.on("click", () => {
+      consoleId = consoles[x].id;
+      createTable(consoleId);
       console.log(`Clicked ${consoles[x].consolename} `);
     });
     $ul.append($li);
   }
   $menu.append($ul);
   $aside.append($menu);
-  $body.append($aside);
+  $aside.insertBefore(".container");
+  //$body.append($aside);
 }

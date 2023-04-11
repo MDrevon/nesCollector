@@ -52,10 +52,10 @@ app.get("/api/games", (req, res) => {
   );
 });
 
-app.get("/api/games/:consoleId", (req, res) => {
+app.get("/api/games/console/:consoleId", (req, res) => {
   const consoleId = req.params.consoleId;
   db.query(
-    "SELECT * FROM games WHERE consoleId = $1",
+    "SELECT games.id, games.gamename, genres.genrename, consoles.consolename FROM games JOIN genres ON genres.id = games.genreid JOIN consoles ON consoles.id = games.consoleid WHERE games.consoleId = $1 ORDER BY gamename ASC",
     [consoleId],
     (err, result) => {
       if (err) {
@@ -66,7 +66,7 @@ app.get("/api/games/:consoleId", (req, res) => {
   );
 });
 
-app.get("/api/games/:genreId", (req, res) => {
+app.get("/api/games/genre/:genreId", (req, res) => {
   const genreId = req.params.genreId;
   db.query(
     "SELECT * FROM games WHERE genreId = $1",
@@ -90,7 +90,7 @@ app.get("/api/games/:id", (req, res) => {
   });
 });
 
-app.get("/api/games/:name", (req, res) => {
+app.get("/api/games/name/:name", (req, res) => {
   const name = req.params.name;
   db.query(
     "SELECT * FROM games WHERE gameName LIKE $1",
