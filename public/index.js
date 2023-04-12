@@ -167,7 +167,7 @@ async function createTable(id) {
     let $gamename = $(`<td>${gamelist[x].gamename}</td>`);
     let $genrename = $(`<td>${gamelist[x].genrename}</td>`);
     let $consolename = $(`<td>${gamelist[x].consolename}</td>`);
-    let $delete = $(`<button class="delete">Delete</td>`);
+    let $delete = $(`<td><button class="delete">Delete</td>`);
     $delete.on("click", () => {
       //Run delete on gameid
       fetch(`/api/games/${gamelist[x].id}`, {
