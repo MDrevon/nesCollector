@@ -24,7 +24,9 @@ async function createInput() {
   //let $columns = $(`.columns`);
   //let $column = $(`<div class="column"></div>`);
   let $div = $(`<div id="form" class="column"></div>`);
-  let $form = $(`<div class="field"></div>`);
+  let $form = $(
+    `<div class="box"><div class="has-text-centered"><b>Add New Game</b></div></div>`
+  );
   let $gamelabel = $(`<label class="label">Game Name</label>`);
   let $gamename = $(
     `<div class="control"><input class="input" id="gamename"></input></div>`
