@@ -196,7 +196,12 @@ async function createMenu() {
   let $aside = $(`<div class="column is-3 menu is-small"></div>`);
   let $menu = $(`<div class="column"><p class="menu-label">Consoles</p></div>`);
   let $ul = $(`<ul class="menu-list"></ul>`);
-
+  let $all = $(`<li><a>All Consoles</a></li>`);
+  $all.on("click", () => {
+    consoleId = 0;
+    redrawTable(consoleId);
+  });
+  $ul.append($all);
   let results = await fetch(`/api/consoles`);
   let consoles = await results.json();
   //console.log(genres);
@@ -257,7 +262,7 @@ async function redrawTable(id) {
     let $gamename = $(`<td>${gamelist[x].gamename}</td>`);
     let $genrename = $(`<td>${gamelist[x].genrename}</td>`);
     let $consolename = $(`<td>${gamelist[x].consolename}</td>`);
-    let $delete = $(`<button class="delete">Delete</td>`);
+    let $delete = $(`<td><button class="delete">Delete</td>`);
     $delete.on("click", () => {
       //Run delete on gameid
       fetch(`/api/games/${gamelist[x].id}`, {
